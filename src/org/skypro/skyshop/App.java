@@ -23,8 +23,10 @@ public class App {
 
         System.out.println("---------------------------------------------------------------------------------------");
         basket.clearBasket();
-        basket.printProductBasket();
         System.out.println("в корзине пусто");
+        basket.printProductBasket();
         System.out.println("---------------------------------------------------------------------------------------");
+        System.out.println("Проверка наличия продукта в пустой корзине");
+        System.out.println(basket.checkProduct("Яблоки"));
     }
 }

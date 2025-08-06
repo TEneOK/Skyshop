@@ -17,9 +17,9 @@ public class App {
 
         basket.printProductBasket();
         System.out.println("---------------------------------------------------------------------------------------");
-
+        System.out.println("Проверка наличия продукта в корзине");
         System.out.println(basket.checkProduct("Мороженое"));
-        System.out.println(basket.checkProduct("Яблоко"));
+        System.out.println(basket.checkProduct("Яблоки"));
 
         System.out.println("---------------------------------------------------------------------------------------");
         basket.clearBasket();

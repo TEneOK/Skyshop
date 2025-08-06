@@ -43,10 +43,12 @@ public class ProductBasket {
     }
 
     public boolean checkProduct(String name) {
-        if (name == null) {
-            return false;
+        for (int i = 0; i < size; i++) {
+            if (name.equalsIgnoreCase(basket[i].getProductName())){
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     public void clearBasket() {

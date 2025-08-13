@@ -1,19 +1,22 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.product.DiscountedProduct;
+import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.SimpleProduct;
 
 public class App {
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket();
 
-        basket.addProduct(new Product("Молоко", 25));
-        basket.addProduct(new Product("Хлеб", 12));
-        basket.addProduct(new Product("Сыр", 40));
-        basket.addProduct(new Product("Яблоки", 30));
-        basket.addProduct(new Product("Яйца", 28));
+        basket.addProduct(new SimpleProduct("Молоко", 25));
+        basket.addProduct(new FixPriceProduct("Хлеб"));
+        basket.addProduct(new FixPriceProduct("Сыр"));
+        basket.addProduct(new SimpleProduct("Яблоки", 30));
+        basket.addProduct(new DiscountedProduct("Яйца", 28, 3));
 
-        basket.addProduct(new Product("Сок", 20));
+        basket.addProduct(new SimpleProduct("Сок", 20));
 
         basket.printProductBasket();
         System.out.println("---------------------------------------------------------------------------------------");

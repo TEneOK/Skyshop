@@ -13,6 +13,21 @@ public class FixPriceProduct extends Product {
     }
 
     @Override
+    public String searchTerm() {
+        return "";
+    }
+
+    @Override
+    public String contentType() {
+        return "";
+    }
+
+    @Override
+    public String getStringRepresentation() {
+        return "";
+    }
+
+    @Override
     public int getProductPrice() {
         return fixPrice;
     }

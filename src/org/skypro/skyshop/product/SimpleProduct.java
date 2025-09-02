@@ -5,8 +5,14 @@ public class SimpleProduct extends Product {
 
     public SimpleProduct(String name, int price) {
         super(name);
+        if (price <= 0) {
+            throw new IllegalArgumentException(
+                    "товар " + name + " не соответсвует условиям цены"
+            );
+        }
         this.price = price;
     }
+
 
     @Override
     public int getProductPrice() {

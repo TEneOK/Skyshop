@@ -6,6 +6,19 @@ public class DiscountedProduct extends Product {
 
     public DiscountedProduct(String name, int price, int discount) {
         super(name);
+
+        if (price <= 0) {
+            throw new IllegalArgumentException(
+                    "товар " + name + " не соответсвует условиям цены"
+            );
+        }
+
+        if (discount < 0 || discount > 100) {
+            throw new IllegalArgumentException(
+                    "товар " + name + " не соответсвует условиям скидок"
+            );
+        }
+
         this.price = price;
         this.discount = discount;
     }
@@ -25,4 +38,5 @@ public class DiscountedProduct extends Product {
     public boolean isSpecial() {
         return true;
     }
+
 }

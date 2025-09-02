@@ -6,6 +6,11 @@ public abstract class Product implements Searchable {
     protected final String name;
 
     public Product(String name) {
+        if (name.isBlank() || name == null) {
+            throw new IllegalArgumentException(
+                    "товар " + name + " не соответсвует условиям именования"
+            );
+        }
         this.name = name;
     }
 
@@ -34,7 +39,8 @@ public abstract class Product implements Searchable {
         return name;
     }
 
-    // toString используем отдельно для корзины (например, "Молоко: 100")
     @Override
     public abstract String toString();
+
+
 }

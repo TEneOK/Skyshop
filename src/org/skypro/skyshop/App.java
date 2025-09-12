@@ -35,7 +35,7 @@ public class App {
         Article magnit = new Article("Магнит", "Магазин для повседневных нужд");
         Article taxi = new Article("Такси", "Довезут куда угодно за ваши монеты");
         Article sudar = new Article("Сударь", "Магазин для настоящих джентельменов");
-        Article milk = new Article("Молочкино", "Как выбрать молочные продукты");
+        Article milk = new Article("Молочкино", "Поможем выбрать молочный коктейл");
         Article apple = new Article("Яблоня", "Польза яблок и фруктов");
 
         engine.add(magnit);
@@ -88,7 +88,7 @@ public class App {
 
         System.out.println("=========================================================================================");
         System.out.println("Вывод всех совпадений");
-        List<Searchable> allResults = engine.search("Молоко");
+        List<Searchable> allResults = engine.search("Молочный");
         System.out.println("Найдено результатов: " + allResults.size());
 
         for (Searchable result : allResults) {

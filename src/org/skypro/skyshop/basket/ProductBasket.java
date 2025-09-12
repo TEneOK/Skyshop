@@ -6,9 +6,7 @@ import java.util.*;
 
 
 public class ProductBasket {
-    LinkedList<Product> basket = new LinkedList<>();
-
-    private int size = 0;
+    List<Product> basket = new LinkedList<>();
 
     public void addProduct(Product product) {
         if (product == null) {
@@ -16,8 +14,8 @@ public class ProductBasket {
             return;
         }
 
-        basket.add(size, product);
-        size++;
+        basket.add(product);
+
     }
 
     public int sumProduct() {
@@ -34,13 +32,12 @@ public class ProductBasket {
         int total = 0;
         int specialCount = 0;
 
-        for (int i = 0; i < size; i++) {
-            Product p = basket.get(i);
-            System.out.println(p);
+        for (Product product : basket) {
+            System.out.println(product);
 
-            total += p.getProductPrice();
+            total += product.getProductPrice();
 
-            if (p.isSpecial()) {
+            if (product.isSpecial()) {
                 specialCount++;
             }
         }
@@ -58,7 +55,6 @@ public class ProductBasket {
             if (product.getProductName().equals(name)) {
                 removedProducts.add(product);
                 iterator.remove();
-                size--;
             }
         }
 
@@ -66,8 +62,8 @@ public class ProductBasket {
     }
 
     public boolean checkProduct(String name) {
-        for (int i = 0; i < size; i++) {
-            if (name.equalsIgnoreCase(basket.get(i).getProductName())) {
+        for (Product product : basket) {
+            if (name.equalsIgnoreCase(product.getProductName())) {
                 return true;
             }
         }
@@ -75,11 +71,8 @@ public class ProductBasket {
     }
 
     public void clearBasket() {
-        for (int i = 0; i < basket.size(); i++) {
             basket.clear();
         }
-        size = 0;
-    }
 
     public int getBasketSize() {
         return basket.size();

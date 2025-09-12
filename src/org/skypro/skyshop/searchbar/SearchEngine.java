@@ -15,8 +15,17 @@ public class SearchEngine {
         List<Searchable> results = new ArrayList<>();
 
         if (query == null || query.isBlank()) {
+
             return results;
         }
+
+            for (Searchable item : searchables) {
+
+                if (item != null && item.searchTerm().contains(query)) {
+                    results.add(item);
+                    }
+                }
+
         return results;
     }
 

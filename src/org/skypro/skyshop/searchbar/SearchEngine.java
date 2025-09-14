@@ -2,6 +2,8 @@ package org.skypro.skyshop.searchbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class SearchEngine {
     private List<Searchable> searchables = new ArrayList<>();
@@ -11,20 +13,27 @@ public class SearchEngine {
         searchables.add(searchable);
     }
 
-    public List<Searchable> search(String query) {
-        List<Searchable> results = new ArrayList<>();
+    public Map<String, Searchable> search(String query) {
+        Map<String, Searchable> results = new TreeMap<>();
 
         if (query == null || query.isBlank()) {
 
             return results;
         }
 
-            for (Searchable item : searchables) {
+        String lowerQuery = query.toLowerCase();
 
-                if (item != null && item.searchTerm().contains(query)) {
-                    results.add(item);
-                    }
+        for (Searchable item : searchables) {
+            if (item != null) {
+                String term = item.searchTerm();
+                String name = item.searchName();
+
+                if ((term != null && term.toLowerCase().contains(lowerQuery)) ||
+                        (name != null && name.toLowerCase().contains(lowerQuery))) {
+                    results.put(item.searchName(), item);
                 }
+            }
+        }
 
         return results;
     }
@@ -33,13 +42,21 @@ public class SearchEngine {
         Searchable bestVariant = null;
         int maxCount = 0;
 
+        if (search == null || search.isBlank()) {
+            throw new BestResultNotFound("Пустой поисковый запрос");
+        }
+
+        String lowerSearch = search.toLowerCase();
+
         for (Searchable item : searchables) {
             if (item != null) {
                 String term = item.searchTerm();
-                int count = countOccurrences(term, search);
-                if (count > maxCount) {
-                    maxCount = count;
-                    bestVariant = item;
+                if (term != null) {
+                    int count = countOccurrences(term.toLowerCase(), lowerSearch);
+                    if (count > maxCount) {
+                        maxCount = count;
+                        bestVariant = item;
+                    }
                 }
             }
         }
@@ -56,6 +73,10 @@ public class SearchEngine {
     }
 
     private int countOccurrences(String text, String search) {
+        if (text == null || search == null || search.isEmpty()) {
+            return 0;
+        }
+
         int count = 0;
         int index = 0;
 

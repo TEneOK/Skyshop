@@ -41,6 +41,4 @@ public abstract class Product implements Searchable {
 
     @Override
     public abstract String toString();
-
-
 }

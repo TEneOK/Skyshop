@@ -10,10 +10,13 @@ import org.skypro.skyshop.searchbar.BestResultNotFound;
 import org.skypro.skyshop.searchbar.SearchEngine;
 import org.skypro.skyshop.searchbar.Searchable;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class App {
     public static void main(String[] args) {
 
-        SearchEngine engine = new SearchEngine(9);
+        SearchEngine engine = new SearchEngine();
         ProductBasket basket = new ProductBasket();
 
         basket.addProduct(new SimpleProduct("Молоко", 25));
@@ -22,19 +25,18 @@ public class App {
         basket.addProduct(new SimpleProduct("Яблоки", 30));
         basket.addProduct(new DiscountedProduct("Яйца", 28, 3));
 
-        basket.addProduct(new DiscountedProduct("Сырок", 22, 32));
 
         engine.add(new SimpleProduct("Молоко", 25));
         engine.add(new FixPriceProduct("Хлеб"));
-        engine.add(new DiscountedProduct("Сыр", 220, 5));
+        engine.add(new DiscountedProduct("Молочный коктейл", 220, 5));
         engine.add(new SimpleProduct("Яблоки", 30));
-        engine.add(new DiscountedProduct("Яйца", 28, 3));
+        engine.add(new DiscountedProduct("Шоколадное молоко", 28, 3));
 
         Article magnit = new Article("Магнит", "Магазин для повседневных нужд");
         Article taxi = new Article("Такси", "Довезут куда угодно за ваши монеты");
         Article sudar = new Article("Сударь", "Магазин для настоящих джентельменов");
-        Article milk = new Article("Молочкино","Как выбрать молочные продукты");
-        Article apple = new Article("Яблоня","Польза яблок и фруктов");
+        Article milk = new Article("Молочкино", "Поможем выбрать молочный коктейл");
+        Article apple = new Article("Яблоня", "Польза яблок и фруктов");
 
         engine.add(magnit);
         engine.add(taxi);
@@ -85,33 +87,36 @@ public class App {
         System.out.println(basket.checkProduct("Яблоки"));
 
         System.out.println("=========================================================================================");
-        System.out.println("Поиск по слову 'Mагнит':");
-        printResults(engine.search("Магнит"));
+        System.out.println("Вывод всех совпадений");
+        List<Searchable> allResults = engine.search("Молочный");
+        System.out.println("Найдено результатов: " + allResults.size());
 
-        System.out.println("\nПоиск по слову 'Такси':");
-        printResults(engine.search("Такси"));
-
-        System.out.println("\nПоиск по слову 'джентельменов':");
-        printResults(engine.search("джентельменов"));
-
-        System.out.println("\nПоиск по слову 'php':");
-        printResults(engine.search("php"));
+        for (Searchable result : allResults) {
+            System.out.println(" - " + result.searchName() + " (" + result.contentType() + ")");
+        }
 
         System.out.println("=========================================================================================");
-        System.out.println("Вывод лучшего результата");
-        try {
-            Searchable best = engine.checkSearch("выбрать");
-            System.out.println("Лучший результат: " + best.getStringRepresentation());
-        } catch (BestResultNotFound e) {
-            System.out.println("Ошибка: " + e.getMessage());
-        }
+        basket.addProduct(new SimpleProduct("Колбаса", 60));
+        basket.addProduct(new FixPriceProduct("Сырок"));
+        basket.addProduct(new DiscountedProduct("Сыр косичка", 20, 5));
+        basket.addProduct(new SimpleProduct("Жиле", 300));
+        basket.addProduct(new DiscountedProduct("Майонез", 28, 3));
 
-        try {
-            Searchable bestVariant = engine.checkSearch("шоколад"); // заведомо нет
-            System.out.println("Лучший результат: " + bestVariant.getStringRepresentation());
-        } catch (BestResultNotFound e) {
-            System.out.println("Ошибка: " + e.getMessage());
+        List<Product> removedProducts = basket.clearProduct("Жиле");
+        System.out.println("Удаленные продукты:");
+        System.out.println(removedProducts);
+        System.out.println();
+
+        basket.printProductBasket();
+
+        List<Product> notFoundProduct = basket.clearProduct("Груша");
+
+        if (notFoundProduct.isEmpty()) {
+            System.out.println("\nСписок пуст");
         }
+        System.out.println();
+
+        basket.printProductBasket();
     }
 
     private static void printResults(Searchable[] results) {

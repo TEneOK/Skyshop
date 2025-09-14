@@ -6,12 +6,11 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.searchbar.Article;
-import org.skypro.skyshop.searchbar.BestResultNotFound;
 import org.skypro.skyshop.searchbar.SearchEngine;
 import org.skypro.skyshop.searchbar.Searchable;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class App {
     public static void main(String[] args) {
@@ -88,11 +87,12 @@ public class App {
 
         System.out.println("=========================================================================================");
         System.out.println("Вывод всех совпадений");
-        List<Searchable> allResults = engine.search("Молочный");
+        Map<String, Searchable> allResults = engine.search("Молочный");
         System.out.println("Найдено результатов: " + allResults.size());
 
-        for (Searchable result : allResults) {
-            System.out.println(" - " + result.searchName() + " (" + result.contentType() + ")");
+        for (Map.Entry<String, Searchable> entry : allResults.entrySet()) {
+            Searchable result = entry.getValue();
+            System.out.println(" - " + entry.getKey() + " (" + result.contentType() + ")");
         }
 
         System.out.println("=========================================================================================");
@@ -102,14 +102,16 @@ public class App {
         basket.addProduct(new SimpleProduct("Жиле", 300));
         basket.addProduct(new DiscountedProduct("Майонез", 28, 3));
 
-        List<Product> removedProducts = basket.clearProduct("Жиле");
+        Map<String, List<Product>> removedMap = basket.clearProduct("Жиле");
+        List<Product> removedProducts = removedMap.get("Жиле");
         System.out.println("Удаленные продукты:");
         System.out.println(removedProducts);
         System.out.println();
 
         basket.printProductBasket();
 
-        List<Product> notFoundProduct = basket.clearProduct("Груша");
+        Map<String, List<Product>> notFoundProduct = basket.clearProduct("Груша");
+        List<Product> removedPears = notFoundProduct.get("Груша");
 
         if (notFoundProduct.isEmpty()) {
             System.out.println("\nСписок пуст");

@@ -11,6 +11,7 @@ import org.skypro.skyshop.searchbar.Searchable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class App {
     public static void main(String[] args) {
@@ -87,12 +88,11 @@ public class App {
 
         System.out.println("=========================================================================================");
         System.out.println("Вывод всех совпадений");
-        Map<String, Searchable> allResults = engine.search("Молочный");
+        Set<Searchable> allResults = engine.search("Молочный");
         System.out.println("Найдено результатов: " + allResults.size());
 
-        for (Map.Entry<String, Searchable> entry : allResults.entrySet()) {
-            Searchable result = entry.getValue();
-            System.out.println(" - " + entry.getKey() + " (" + result.contentType() + ")");
+        for (Searchable result : allResults) {
+            System.out.println(" - " + result.searchName() + " (" + result.contentType() + ")");
         }
 
         System.out.println("=========================================================================================");
@@ -119,7 +119,20 @@ public class App {
         System.out.println();
 
         basket.printProductBasket();
+
+        System.out.println("=========================================================================================");
+        engine.add(new Article("Сборник задач по Java", "Список задач для понимания устройства Java"));
+        engine.add(new Article("Сборник задач по Java", "Список задач для понимания Java"));
+        engine.add(new Article("Базовый Python", "Основные термины и команды Python"));
+        engine.add(new Article("Увлекательный JavaScript", "учебник для детального изучения JavaScript"));
+
+        Set<Searchable> results = engine.search("Java");
+
+        for (Searchable item : results) {
+            System.out.println(item.getStringRepresentation());
+        }
     }
+
 
     private static void printResults(Searchable[] results) {
         for (Searchable s : results) {

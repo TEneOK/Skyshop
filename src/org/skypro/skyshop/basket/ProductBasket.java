@@ -22,38 +22,34 @@ public class ProductBasket {
     }
 
     public int sumProduct() {
-        int total = 0;
-        for (List<Product> productList : basket.values()) {
-            for (Product product : productList) {
-                if (product != null) {
-                    total += product.getProductPrice();
-                }
-            }
-        }
-        return total;
+        return basket.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(Product::getProductPrice)
+                .sum();
     }
 
     public void printProductBasket() {
-        int total = 0;
-        int specialCount = 0;
-
-        for (Map.Entry<String, List<Product>> entry : basket.entrySet()) {
-            String productName = entry.getKey();
-            List<Product> products = entry.getValue();
-
-            for (Product product : products) {
-                if (product != null) {
-                    System.out.println(product);
-                    total += product.getProductPrice();
-                    if (product.isSpecial()) {
-                        specialCount++;
-                    }
-                }
-            }
+        if (basket.isEmpty()) {
+            System.out.println("Корзина пуста");
+            return;
         }
 
-        System.out.println("Итого: " + total);
-        System.out.println("Специальных товаров: " + specialCount);
+        basket.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(product ->
+                        System.out.println(product.getProductName() + ": " + product.getProductPrice())
+                );
+
+        int specialCount = getSpecialCount();
+        System.out.println("Итого: " + sumProduct());
+        System.out.println("Количество специальных продуктов: " + specialCount);
+    }
+
+    private int getSpecialCount() {
+        return (int) basket.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
 
     public Map<String, List<Product>> clearProduct(String name) {

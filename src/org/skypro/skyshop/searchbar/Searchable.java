@@ -10,4 +10,5 @@ public interface Searchable {
     default String getStringRepresentation() {
         return searchName() + " — " + contentType();
     }
+
 }
